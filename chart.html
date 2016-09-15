@@ -1,0 +1,19 @@
+<html>
+<body ng-app="app">
+  <div ng-controller="BarCtrl" style="width:70%;height:70%">
+    <p>Operator ID: <input type="text" name="id_operator" ng-model="id_operator" required /></p>
+    <button ng-click="SendData()">Submit</button>
+    <hr />
+    <p align="center">Nama Operator : {{operator}}</p>
+    <p align="center">Nama loket : {{loket}}</p>
+    <canvas id="bar" class="chart chart-bar"
+      chart-data="data" chart-labels="labels" chart-series="series">
+    </canvas>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.0.1/Chart.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

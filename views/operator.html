@@ -1,0 +1,51 @@
+<div ng-include="'views/partials/navi.htm'"></div>
+<div class="right_col" role="main">
+<div ng-include="'views/partials/header.htm'"></div>
+<div class="row">
+  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Operator List <small></small></h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Settings 1</a>
+              </li>
+              <li><a href="#">Settings 2</a>
+              </li>
+            </ul>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nama Operator</th>
+              <th>Nama Loket</th>
+              <th>action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="operator in operatordata">
+              <th scope="row">1</th>
+              <td>{{operator.nama_operator}}</td>
+              <td>{{operator.nama_loket}}</td>
+              <td><a ng-href="#/operator/detail/{{operator.id_operator}}" class="btn btn-primary btn-sm">Detail</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>

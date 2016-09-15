@@ -1,0 +1,54 @@
+<div ng-include="'views/partials/navi.htm'"></div>
+<!-- page content -->
+<div class="right_col" role="main">
+<div class="row">
+  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-2">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Data Berita <small>menampilkan list data berita</small></h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Settings 1</a>
+              </li>
+              <li><a href="#">Settings 2</a>
+              </li>
+            </ul>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <div class="alert alert-danger" role="alert" style="display:none" id="error">{{msgTexterror}}</div>
+        <div class="alert alert-success" role="alert" style="display:none" id="success">{{msgTextsuccess}}</div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Judul</th>
+              <th>Isi</th>
+              <th>Foto</th>
+              <th>action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="berita in beritadata">
+              <th scope="row">{{berita.id_berita}}</th>
+              <td>{{berita.judul}}</td>
+              <td>{{berita.isi}}</td>
+              <td><img src="/img/{berita.foto}" alt="" /></td>
+              <!--<a ng-href="#/berita/{{berita.id_berita}}" class="btn btn-primary btn-sm">Edit -->
+              <td><a ng-href="#/berita/edit/{{berita.id_berita}}" class="btn btn-primary btn-sm">Edit</a><a ng-click="deleteData(berita.id_berita)" class="btn btn-primary btn-sm">Hapus</a></td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>
