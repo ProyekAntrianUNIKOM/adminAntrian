@@ -1,6 +1,8 @@
 'use strict';
 
-app.controller('beritaController',function($routeParams,$scope,$http,$timeout,$location,$window){
+app.controller('beritaController',function($routeParams,$scope,$http,$timeout,$location,$window,$sce){
+
+
   $http.get('http://localhost/lumenapi/public/api/berita')
     .success(function (data) {
       $scope.beritadata = data.result;
@@ -8,12 +10,25 @@ app.controller('beritaController',function($routeParams,$scope,$http,$timeout,$l
     console.log(data);
   });
 
+  if($routeParams.id_detail){
+    var id = $routeParams.id_detail;
+    $http.get('http://localhost/lumenapi/public/api/berita/'+id)
+      .success(function (data) {
+        $scope.judul = data.result[0].judul;
+        $scope.isi = $sce.trustAsHtml(data.result[0].isi);
+        $scope.foto = data.result[0].foto;
+      }).error(function (data) {
+        console.log(data);
+      });
+  }
+
   if($routeParams.id){
     var id = $routeParams.id;
     $http.get('http://localhost/lumenapi/public/api/berita/'+id)
       .success(function (data) {
         $scope.judul = data.result[0].judul;
         $scope.isi = data.result[0].isi;
+        $scope.oldfile = data.result[0].foto;
       }).error(function (data) {
         console.log(data);
       });
@@ -52,18 +67,21 @@ app.controller('beritaController',function($routeParams,$scope,$http,$timeout,$l
     });
 
   };
-  $scope.SendEditBerita = function(judul,isi) {
-    var data = {
-      judul : judul,
-      isi : isi
-    }
+  $scope.SendEditBerita = function(judul,isi,file,oldfile) {
+    var fd = new FormData();
+    //Take the first selected file
+    fd.append("file", file);
+    fd.append("judul", judul);
+    fd.append("isi", isi);
+    fd.append("oldfile", oldfile);
+
     var config = {
       headers : {
-        'Content-Type': 'application/json'
+        'Content-Type': undefined
       }
     }
     var id = $routeParams.id;
-    $http.put('http://localhost/lumenapi/public/api/berita/'+id, data,config).success(function(data,status){
+    $http.post('http://localhost/lumenapi/public/api/berita/'+id, fd,config).success(function(data,status){
       if(data.status==200) {
         document.getElementById('error').style.display = 'none';
         document.getElementById('success').style.display = 'block';
@@ -80,13 +98,12 @@ app.controller('beritaController',function($routeParams,$scope,$http,$timeout,$l
     });
   }
 
-  $scope.SendDataBerita = function (berita,file) {
+  $scope.SendDataBerita = function (berita) {
     var fd = new FormData();
     //Take the first selected file
     fd.append("file", berita.file);
     fd.append("judul", berita.judul);
     fd.append("isi", berita.isi);
-    console.log(fd);
 
     var config = {
       headers : {

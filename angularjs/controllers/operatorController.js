@@ -9,8 +9,7 @@ app.controller('operatorController',function($routeParams,$scope,$http){
   });
 
   var data = {
-    id_operator : $routeParams.id,
-    tahun : '2016'
+    id_operator : $routeParams.id
   }
 
   var config = {
@@ -21,10 +20,41 @@ app.controller('operatorController',function($routeParams,$scope,$http){
 
   $http.post('http://localhost/lumenapi/public/api/historydetail',data,config)
   .success(function(data){
+    $scope.msg='';
+    if(data.status==400){
+      $scope.msg=data.message;
+    }
     $scope.datahistory = data.result;
     $scope.nama_operator = data.nama_operator;
     $scope.nama_loket = data.nama_loket;
   }).error(function(data){
     console.log(data);
   });
+
+  $scope.search = function(tahun){
+    var data = {
+      id_operator : $routeParams.id,
+      tahun : tahun
+    }
+
+    var config = {
+      headers : {
+        'Content-Type': 'application/json'
+      }
+    }
+
+    $http.post('http://localhost/lumenapi/public/api/historydetail',data,config)
+    .success(function(data){
+      $scope.msg='';
+      $scope.datahistory = data.result;
+      $scope.nama_operator = data.nama_operator;
+      $scope.nama_loket = data.nama_loket;
+      console.log(data.status);
+      if(data.status==400){
+        $scope.msg = data.message;
+      }
+    }).error(function(data){
+      console.log(data);
+    });
+  }
 });

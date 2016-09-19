@@ -31,19 +31,17 @@
             <tr>
               <th>Id</th>
               <th>Judul</th>
-              <th>Isi</th>
               <th>Foto</th>
-              <th>action</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="berita in beritadata">
               <th scope="row">{{berita.id_berita}}</th>
               <td>{{berita.judul}}</td>
-              <td>{{berita.isi}}</td>
-              <td><img src="/img/{berita.foto}" alt="" /></td>
+              <td><img ng-src="http://localhost/lumenapi/public/img/{{berita.foto}}" alt="" style="width:70px"></td>
               <!--<a ng-href="#/berita/{{berita.id_berita}}" class="btn btn-primary btn-sm">Edit -->
-              <td><a ng-href="#/berita/edit/{{berita.id_berita}}" class="btn btn-primary btn-sm">Edit</a><a ng-click="deleteData(berita.id_berita)" class="btn btn-primary btn-sm">Hapus</a></td>
+              <td><a ng-href="#/berita/edit/{{berita.id_berita}}" class="btn btn-primary btn-sm">Edit<a ng-href="#/berita/detail/{{berita.id_berita}}" class="btn btn-primary btn-sm">Detail</a><a ng-click="deleteData(berita.id_berita)" class="btn btn-primary btn-sm">Hapus</a></td>
             </tr>
           </tbody>
         </table>

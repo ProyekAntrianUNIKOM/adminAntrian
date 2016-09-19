@@ -2,7 +2,7 @@
 
 
 // Declare app level module which depends on filters, and services
-var app = angular.module('adminApp', ['ngRoute','ngCookies','chart.js','ng-file-input']).controller("chartcont", function ($scope,$http) {
+var app = angular.module('adminApp', ['ngRoute','ngCookies','chart.js','ng-file-input','summernote']).controller("chartcont", function ($scope,$http) {
 
   $scope.SendData = function () {
     var data = $.param({
@@ -60,12 +60,13 @@ app.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/berita', {templateUrl: './views/berita.html',controller:'beritaController'});
   $routeProvider.when('/berita/add', {templateUrl: './views/formberita.html',controller:'beritaController'});
   $routeProvider.when('/berita/edit/:id', {templateUrl: './views/editberita.html',controller:'beritaController'});
+  $routeProvider.when('/berita/detail/:id_detail', {templateUrl: './views/detailberita.html',controller:'beritaController'});
   $routeProvider.when('/berita/:idhapus', {controller:'beritaController'});
 
 }]);
 
 app.run(function($rootScope,$location,loginService){
-  var routespermission=['/','/operator','operator/detail/:id','berita/edit/:id'];
+  var routespermission=['/','/operator','/operator/detail/:id','/berita/edit/:id','/berita','/berita/add','/berita/detail/:id_detail'];
   $rootScope.$on('$routeChangeStart',function(){
     if(routespermission.indexOf($location.path()) !=-1 && !loginService.isLogged()){
       $location.path('/login');
