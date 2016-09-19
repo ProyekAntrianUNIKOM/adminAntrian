@@ -31,10 +31,11 @@ app.controller('operatorController',function($routeParams,$scope,$http){
     console.log(data);
   });
 
-  $scope.search = function(tahun){
+  $scope.search = function(tahun,bulan){
     var data = {
       id_operator : $routeParams.id,
-      tahun : tahun
+      tahun : tahun,
+      bulan : bulan
     }
 
     var config = {

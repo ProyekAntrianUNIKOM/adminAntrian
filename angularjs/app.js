@@ -1,38 +1,57 @@
 'use strict';
 
-
 // Declare app level module which depends on filters, and services
 var app = angular.module('adminApp', ['ngRoute','ngCookies','chart.js','ng-file-input','summernote']).controller("chartcont", function ($scope,$http) {
 
+  var operator = [];
+  var jumlah = [];
+  $scope.tahunv = '-';
+  $http.post('http://localhost/lumenapi/public/api/historyall')
+    .success(function (data, status, headers, config) {
+      for (var i=0; i<data.result.length; i++) {
+        operator.push(data.result[i].nama_operator);
+      }
+      for (var i=0; i<data.result.length; i++) {
+        jumlah.push(data.result[i].jumlah);
+      }
+    }).error(function (data, status, header, config) {
+      console.log(data);
+  });
+  $scope.labels = operator;
+  $scope.series = ['Antrian Terlayani'];
+
+  $scope.data = [jumlah];
+
   $scope.SendData = function () {
+    $scope.tahunv = $scope.tahun;
     var data = $.param({
       tahun: $scope.tahun
     });
 
+    var config = {
+      headers : {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+      }
+    }
+    var operator = [];
+    var jumlah = [];
+    $http.post('http://localhost/lumenapi/public/api/historyall', data, config)
+      .success(function (data, status, headers, config) {
+        for (var i=0; i<data.result.length; i++) {
+          operator.push(data.result[i].nama_operator);
+        }
+        for (var i=0; i<data.result.length; i++) {
+          jumlah.push(data.result[i].jumlah);
+        }
+      }).error(function (data, status, header, config) {
+        console.log(data);
+    });
+    $scope.labels = operator;
+    $scope.series = ['Antrian Terlayani'];
 
-  var config = {
-    headers : {
-      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-    }
+    $scope.data = [jumlah];
   }
-  var operator = [];
-  var jumlah = [];
-  $http.post('http://localhost/lumenapi/public/api/historyall', data, config)
-    .success(function (data, status, headers, config) {
-    for (var i=0; i<data.result.length; i++) {
-      operator.push(data.result[i].nama_operator);
-    }
-    for (var i=0; i<data.result.length; i++) {
-      jumlah.push(data.result[i].jumlah);
-    }
-  }).error(function (data, status, header, config) {
-    console.log(data);
-  });
-  $scope.labels = operator;
-  $scope.series = ['Series A', 'Series B'];
 
-  $scope.data = jumlah;
-  }
 }).controller("nav", function ($scope,sessionService,$http) {
   $scope.username = sessionService.get('username');
   $http.get('http://localhost/lumenapi/public/api/operator')

@@ -8,11 +8,15 @@
       </div>
 
       <div class="title_right">
-        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+        <div class="col-md-10 col-sm-5 col-xs-12 form-group pull-right top_search">
           <div class="input-group">
-            <input type="text" ng-model="tahun" class="form-control" placeholder="Tahun/bulan/tanggal">
+            <input type="text" ng-model="tahun" class="form-control" placeholder="Tahun , ex. 2016">
             <span class="input-group-btn">
-                <button ng-click="search(tahun)" class="btn btn-default" type="button">Go!</button>
+
+            </span>
+            <input type="text" ng-model="bulan" class="form-control" placeholder="Bulan , ex. 06">
+            <span class="input-group-btn">
+                <button ng-click="search(tahun,bulan)" class="btn btn-default" type="button">Go!</button>
             </span>
           </div>
         </div>

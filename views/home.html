@@ -4,15 +4,27 @@
   <div ng-include="'views/partials/header.htm'"></div>
 
   <div class="row" ng-controller="chartcont">
-    <div class="col-md-3 col-md-offset-4">
-      <p>Filter Tahun: <input type="text" name="tahun" ng-model="tahun" class="form-control" required /></p>
-      <button ng-click="SendData()" class="btn btn-primary">Submit</button>
+    <div class="page-title">
+      <div class="title_left">
+        <h3> Operator History <small> mahasiswa terlayani</small> </h3>
+      </div>
+
+      <div class="title_right">
+        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+          <div class="input-group">
+            <input type="text" ng-model="tahun" class="form-control" placeholder="Tahun , ex. 2016">
+            <span class="input-group-btn">
+                <button ng-click="SendData()" class="btn btn-default" type="button">Search</button>
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
     <p>
     <div class="col-md-12">
-      <p align="center">Antrian Terlayani Tahunn : {{tahun}}</p>
-      <canvas id="bar" class="chart chart-bar"
-        chart-data="data" chart-labels="labels" chart-series="series">
+      <p align="center">Antrian Terlayani Tahun : {{tahunv}}</p>
+      <canvas id="line" class="chart chart-line"
+        chart-data="data" chart-labels="labels" chart-series="series" chart-options="options" chart-dataset-override="datasetOverride" chart-click="onClick">
       </canvas>
     </div>
   </div>
