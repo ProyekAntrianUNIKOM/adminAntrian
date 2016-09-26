@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-var app = angular.module('adminApp', ['ngRoute','ngCookies','chart.js','ng-file-input','summernote']).controller("chartcont", function ($scope,$http) {
+var app = angular.module('adminApp', ['ngRoute','ngCookies','chart.js','ng-file-input','summernote','ngAnimate']).controller("chartcont", function ($scope,$http) {
 
   var operator = [];
   var jumlah = [];
@@ -52,7 +52,12 @@ var app = angular.module('adminApp', ['ngRoute','ngCookies','chart.js','ng-file-
     $scope.data = [jumlah];
   }
 
-}).controller("nav", function ($scope,sessionService,$http) {
+}).controller("nav", function ($scope,sessionService,$http,$location) {
+  $scope.logout = function() {
+    sessionService.destroy('id_admin');
+    sessionService.destroy('username');
+    $location.path('/login');
+  }
   $scope.username = sessionService.get('username');
   $http.get('http://localhost/lumenapi/public/api/operator')
     .success(function (data) {

@@ -2,7 +2,6 @@
  * of the key things about the widget is that it allows you to do your own styling!
  */
 
-
 #editor, #first-editor, #second-editor {
 	max-height: 250px;
 	height: 250px;
@@ -70,9 +69,9 @@ div[data-role="editor-toolbar"] {
 }
 
 /*
-	Font Sizes 
+	Font Sizes
 	fs represents the font-size attribute; therefore,
-	fs-five would be the equivalent to font-size: 5;	
+	fs-five would be the equivalent to font-size: 5;
 */
 
 .fs-One {

@@ -2,13 +2,67 @@
 
 app.controller('beritaController',function($routeParams,$scope,$http,$timeout,$location,$window,$sce){
 
+  /*$scope.filteredTodos = [],
+  $scope.currentPage = 1,
+  $scope.numPerPage = 10,
+  $scope.maxSize = 5;
+
+  $scope.makeTodos = function() {
+    $scope.todos = [];
+    for (var i=1;i<=1000;i++) {
+      $scope.todos.push({ text:"todo "+i, done:false});
+    }
+  };
+  $scope.makeTodos();
+
+  $scope.$watch("currentPage + numPerPage", function() {
+    var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+    , end = begin + $scope.numPerPage;
+
+    $scope.filteredTodos = $scope.todos.slice(begin, end);
+  });*/
 
   $http.get('http://localhost/lumenapi/public/api/berita')
     .success(function (data) {
       $scope.beritadata = data.result;
+      var now = new Date().toISOString().slice(0,10);
+      $scope.tglnow = now;
   }).error(function (data) {
     console.log(data);
   });
+
+  $scope.allberita = function() {
+    $http.get('http://localhost/lumenapi/public/api/berita')
+      .success(function (data) {
+        var now = new Date().toISOString().slice(0,10);
+        $scope.beritadata = data.result;
+        $scope.tglnow = now;
+    }).error(function (data) {
+      console.log(data);
+    });
+  }
+
+  $scope.activeberita = function() {
+    $http.get('http://localhost/lumenapi/public/api/berita/active')
+      .success(function (data) {
+        $scope.beritadata = data.result;
+        $scope.passive = "display:none";
+        $scope.active = "display:block";
+    }).error(function (data) {
+      console.log(data);
+    });
+  }
+
+  $scope.passiveberita = function() {
+    $http.get('http://localhost/lumenapi/public/api/berita/passive')
+      .success(function (data) {
+        $scope.beritadata = data.result;
+        $scope.active = "display:none";
+        $scope.passive = "display:block";
+    }).error(function (data) {
+      console.log(data);
+    });
+  }
 
   if($routeParams.id_detail){
     var id = $routeParams.id_detail;
@@ -104,6 +158,7 @@ app.controller('beritaController',function($routeParams,$scope,$http,$timeout,$l
     fd.append("file", berita.file);
     fd.append("judul", berita.judul);
     fd.append("isi", berita.isi);
+    fd.append("tgl_expire", berita.tgl_expire);
 
     var config = {
       headers : {
@@ -120,7 +175,7 @@ app.controller('beritaController',function($routeParams,$scope,$http,$timeout,$l
         },2000);
       }else{
         document.getElementById('error').style.display = 'block';
-        $scope.msgTexterror=data;
+        $scope.msgTexterror=data.message;
       }
     }).error(function(data){
       console.error(data);

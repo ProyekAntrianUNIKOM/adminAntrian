@@ -1,5 +1,11 @@
 /* iCheck plugin Flat skin, green
 ----------------------------------- */
+/* The starting CSS styles for the enter animation */
+#fade {
+  transition: all linear 0.5s;
+  opacity:0;
+}
+
 .icheckbox_flat-green,
 .iradio_flat-green {
     display: inline-block;
