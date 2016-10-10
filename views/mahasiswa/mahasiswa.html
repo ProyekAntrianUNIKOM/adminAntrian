@@ -1,0 +1,76 @@
+<div ng-include="'views/partials/nav.htm'"></div>
+<!-- page content -->
+<div class="right_col" role="main">
+<div class="row">
+  <div class="col-md-10 col-sm-10 col-xs-12 col-md-offset-1">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Data Mahasiswa <small>menampilkan list data mahasiswa</small></h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Settings 1</a>
+              </li>
+              <li><a href="#">Settings 2</a>
+              </li>
+            </ul>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <div class="alert alert-danger" role="alert" style="display:none" id="error">{{msgTexterror}}</div>
+        <div class="alert alert-success" role="alert" style="display:none" id="success">{{msgTextsuccess}}</div>
+        <div class="col-md-6 col-md-offset-4">
+          <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Tambah Mahasiswa</button>
+        </div>
+        <table class="table table-bordered" id="datatable">
+          <thead>
+            <tr>
+              <th width="15%">No.RFID</th>
+              <th width="10%">NIM</th>
+              <th width="18%">Nama</th>
+              <th>Alamat</th>
+              <th width="18.5%">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="mhs in mhsdata">
+              <th>{{mhs.no_rfid}}</th>
+              <th>{{mhs.nim}}</th>
+              <td>{{mhs.nama}}</td>
+              <td>{{mhs.alamat}}</td>
+              <!--<a ng-href="#/mhs/{{mhs.id_mhs}}" class="btn btn-primary btn-sm">Edit -->
+              <td><a ng-href="#/mahasiswa/edit/{{mhs.nim}}" class="btn btn-primary btn-xs">Edit<a ng-href="#/mahasiswa/detail/{{mhs.nim}}" class="btn btn-primary btn-xs">Detail</a><a ng-click="deleteData(mhs.nim)" class="btn btn-primary btn-xs">Hapus</a></td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <center><p><h3>Masukan RFID</h3></p></center>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

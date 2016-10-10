@@ -8,7 +8,7 @@ app.filter('startFrom', function() {
   }
 });
 
-app.controller('beritaController',function($routeParams,$scope,$http,$timeout,$location,$window,$sce){
+app.controller('videoController',function($routeParams,$scope,$http,$timeout,$location,$window,$sce){
 
   $http.get('http://localhost/lumenapi/public/api/berita')
     .success(function (data) {

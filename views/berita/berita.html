@@ -2,7 +2,7 @@
 <!-- page content -->
 <div class="right_col" role="main">
 <div class="row">
-  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-2">
+  <div class="col-md-8 col-sm-6 col-xs-12 col-md-offset-2">
     <div class="x_panel">
       <div class="x_title">
         <h2>Data Berita <small>menampilkan list data berita</small></h2>
@@ -24,8 +24,14 @@
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-        <div class="alert alert-danger" role="alert" style="display:none" id="error">{{msgTexterror}}</div>
-        <div class="alert alert-success" role="alert" style="display:none" id="success">{{msgTextsuccess}}</div>
+        <div class="alert alert-danger" role="alert" style="display:none" id="error">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          {{msgTexterror}}
+        </div>
+        <div class="alert alert-success" role="alert" style="display:none" id="success">
+          <span class="glyphicon glyphicon glyphicon-{{status}}" aria-hidden="true"></span>
+          {{msgTextsuccess}}
+        </div>
         <div class="col-md-6 col-md-offset-4">
           <button type="button" class="btn btn-info btn-xs" ng-click="allberita()">All</button>
           <button type="button" class="btn btn-info btn-xs" ng-click="activeberita()">Active</button>
@@ -34,22 +40,22 @@
         <table class="table table-bordered" id="datatable">
           <thead>
             <tr>
-              <th>Id</th>
+              <th width="9%">Id</th>
               <th>Judul</th>
-              <th>Tanggal Post</th>
-              <th>Status</th>
-              <th>Action</th>
+              <th width="18.5%">Tanggal Post</th>
+              <th width="11%">Status</th>
+              <th width="23.5%">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="berita in beritadata">
+            <tr ng-repeat="berita in beritadata | startFrom:currentPage*pageSize | limitTo:pageSize">
               <th scope="row">{{berita.id_berita}}</th>
               <td>{{berita.judul}}</td>
               <td>{{berita.tgl_posting}}</td>
               <td ng-if="berita.tgl_expire >= tglnow">
                 <button class="btn btn-success btn-xs" disabled>Active</button>
               </td>
-              <td ng-if="berita.tgl_expire <= tglnow">
+              <td ng-if="berita.tgl_expire < tglnow">
                 <button class="btn btn-danger btn-xs" disabled>Expire</button>
               </td>
               <!--<a ng-href="#/berita/{{berita.id_berita}}" class="btn btn-primary btn-sm">Edit -->
@@ -57,13 +63,13 @@
             </tr>
           </tbody>
         </table>
-        <pagination
-          ng-model="currentPage"
-          total-items="todos.length"
-          max-size="maxSize"
-          boundary-links="true">
-        </pagination>
-
+        <button class="btn btn-success btn-xs" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+          Previous
+        </button>
+        {{currentPage+1}}/{{numberOfPages()}}
+        <button class="btn btn-success btn-xs" ng-disabled="currentPage >= beritadata.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+          Next
+        </button>
       </div>
     </div>
   </div>

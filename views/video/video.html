@@ -1,0 +1,76 @@
+<div ng-include="'views/partials/nav.htm'"></div>
+<!-- page content -->
+<div class="right_col" role="main">
+<div class="row">
+  <div class="col-md-8 col-sm-6 col-xs-12 col-md-offset-2">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Data video <small>menampilkan list data video</small></h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Settings 1</a>
+              </li>
+              <li><a href="#">Settings 2</a>
+              </li>
+            </ul>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <div class="alert alert-danger" role="alert" style="display:none" id="error">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          {{msgTexterror}}
+        </div>
+        <div class="alert alert-success" role="alert" style="display:none" id="success">
+          <span class="glyphicon glyphicon glyphicon-{{status}}" aria-hidden="true"></span>
+          {{msgTextsuccess}}
+        </div>
+        <div class="col-md-6 col-md-offset-4">
+          <button type="button" class="btn btn-info btn-xs" ng-click="allvideo()">All</button>
+          <button type="button" class="btn btn-info btn-xs" ng-click="activevideo()">Active</button>
+          <button type="button" class="btn btn-info btn-xs" ng-click="passivevideo()">Expire</button>
+        </div>
+        <table class="table table-bordered" id="datatable">
+          <thead>
+            <tr>
+              <th width="9%">Id</th>
+              <th>Judul</th>
+              <th width="18.5%">Tanggal Post</th>
+              <th width="11%">Status</th>
+              <th width="23.5%">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="video in videodata | startFrom:currentPage*pageSize | limitTo:pageSize">
+              <th scope="row">{{video.id_video}}</th>
+              <td>{{video.judul}}</td>
+              <td>{{video.tgl_posting}}</td>
+              <td ng-if="video.tgl_expire >= tglnow">
+                <button class="btn btn-success btn-xs" disabled>Active</button>
+              </td>
+              <td ng-if="video.tgl_expire < tglnow">
+                <button class="btn btn-danger btn-xs" disabled>Expire</button>
+              </td>
+              <!--<a ng-href="#/video/{{video.id_video}}" class="btn btn-primary btn-sm">Edit -->
+              <td><a ng-href="#/video/edit/{{video.id_video}}" class="btn btn-primary btn-xs">Edit<a ng-href="#/video/detail/{{video.id_video}}" class="btn btn-primary btn-xs">Detail</a><a ng-click="deleteData(video.id_video)" class="btn btn-primary btn-xs">Hapus</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-success btn-xs" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+          Previous
+        </button>
+        {{currentPage+1}}/{{numberOfPages()}}
+        <button class="btn btn-success btn-xs" ng-disabled="currentPage >= videodata.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+          Next
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -59,12 +59,6 @@ var app = angular.module('adminApp', ['ngRoute','ngCookies','chart.js','ng-file-
     $location.path('/login');
   }
   $scope.username = sessionService.get('username');
-  $http.get('http://localhost/lumenapi/public/api/operator')
-    .success(function (data) {
-      $scope.operatordata = data.result;
-  }).error(function (data) {
-    console.log(data);
-  });
 }).controller("head",function($scope,$http){
   $http.get('http://localhost/lumenapi/public/api/loket').success(function(data){
     $scope.loketdata = data.result;
@@ -79,18 +73,34 @@ app.value('base_url',base_url);
 app.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/', {templateUrl: './views/home.html',controller:'homeController'});
   $routeProvider.when('/login', {templateUrl: './views/login.html',controller:'loginController'});
-  $routeProvider.when('/operator', {templateUrl: './views/operator.html',controller:'operatorController'});
-  $routeProvider.when('/operator/detail/:id', {templateUrl: './views/historyoperator.html',controller:'operatorController'});
-  $routeProvider.when('/berita', {templateUrl: './views/berita.html',controller:'beritaController'});
-  $routeProvider.when('/berita/add', {templateUrl: './views/formberita.html',controller:'beritaController'});
-  $routeProvider.when('/berita/edit/:id', {templateUrl: './views/editberita.html',controller:'beritaController'});
-  $routeProvider.when('/berita/detail/:id_detail', {templateUrl: './views/detailberita.html',controller:'beritaController'});
+  //operator
+  $routeProvider.when('/operator', {templateUrl: './views/operator/operator.html',controller:'operatorController'});
+  $routeProvider.when('/operator/detail/:id', {templateUrl: './views/operator/historyoperator.html',controller:'operatorController'});
+  //berita
+  $routeProvider.when('/berita', {templateUrl: './views/berita/berita.html',controller:'beritaController'});
+  $routeProvider.when('/berita/add', {templateUrl: './views/berita/formberita.html',controller:'beritaController'});
+  $routeProvider.when('/berita/edit/:id', {templateUrl: './views/berita/editberita.html',controller:'beritaController'});
+  $routeProvider.when('/berita/detail/:id_detail', {templateUrl: './views/berita/detailberita.html',controller:'beritaController'});
   $routeProvider.when('/berita/:idhapus', {controller:'beritaController'});
-
+  //video
+  $routeProvider.when('/video', {templateUrl: './views/video/video.html',controller:'videoController'});
+  $routeProvider.when('/video/add', {templateUrl: './views/video/formvideo.html',controller:'videoController'});
+  $routeProvider.when('/video/edit/:id', {templateUrl: './views/video/editvideo.html',controller:'videoController'});
+  $routeProvider.when('/video/detail/:id_detail', {templateUrl: './views/video/detailvideo.html',controller:'videoController'});
+  $routeProvider.when('/video/:idhapus', {controller:'videoController'});
+  //mahasiswa
+  $routeProvider.when('/mahasiswa', {templateUrl: './views/mahasiswa/mahasiswa.html',controller:'mahasiswaController'});
+  //banner
+  $routeProvider.when('/banner', {templateUrl: './views/banner/banner.html',controller:'bannerController'});
+  $routeProvider.when('/banner/add', {templateUrl: './views/banner/formbanner.html',controller:'bannerController'});
+  $routeProvider.when('/banner/edit/:id', {templateUrl: './views/banner/editbanner.html',controller:'bannerController'});
 }]);
 
 app.run(function($rootScope,$location,loginService){
-  var routespermission=['/','/operator','/operator/detail/:id','/berita/edit/:id','/berita','/berita/add','/berita/detail/:id_detail'];
+  var routespermission=['/','/operator','/operator/detail/:id','/berita/edit/:id',
+                        '/berita','/berita/add','/berita/detail/:id_detail','/mahasiswa',
+                        '/banner','/banner/add','/banner/edit/:id','/video','/video/add',
+                        '/video/edit/:id','/video/detail/:id_detail','/video/:idhapus'];
   $rootScope.$on('$routeChangeStart',function(){
     if(routespermission.indexOf($location.path()) !=-1 && !loginService.isLogged()){
       $location.path('/login');
