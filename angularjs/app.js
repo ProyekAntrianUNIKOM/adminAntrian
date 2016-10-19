@@ -6,6 +6,7 @@ var app = angular.module('adminApp', ['ngRoute','ngCookies','chart.js','ng-file-
   var operator = [];
   var jumlah = [];
   $scope.tahunv = '-';
+  $scope.bulanv = '-';
   $http.post('http://localhost/lumenapi/public/api/historyall')
     .success(function (data, status, headers, config) {
       for (var i=0; i<data.result.length; i++) {
@@ -24,8 +25,10 @@ var app = angular.module('adminApp', ['ngRoute','ngCookies','chart.js','ng-file-
 
   $scope.SendData = function () {
     $scope.tahunv = $scope.tahun;
+    $scope.bulanv = $scope.bulan;
     var data = $.param({
-      tahun: $scope.tahun
+      tahun: $scope.tahun,
+      bulan: $scope.bulan
     });
 
     var config = {
@@ -79,28 +82,29 @@ app.config(['$routeProvider', function($routeProvider) {
   //berita
   $routeProvider.when('/berita', {templateUrl: './views/berita/berita.html',controller:'beritaController'});
   $routeProvider.when('/berita/add', {templateUrl: './views/berita/formberita.html',controller:'beritaController'});
-  $routeProvider.when('/berita/edit/:id', {templateUrl: './views/berita/editberita.html',controller:'beritaController'});
-  $routeProvider.when('/berita/detail/:id_detail', {templateUrl: './views/berita/detailberita.html',controller:'beritaController'});
+  $routeProvider.when('/berita/edit/:id_editBerita', {templateUrl: './views/berita/editberita.html',controller:'beritaController'});
+  $routeProvider.when('/berita/detail/:id_detailBerita', {templateUrl: './views/berita/detailberita.html',controller:'beritaController'});
   $routeProvider.when('/berita/:idhapus', {controller:'beritaController'});
   //video
   $routeProvider.when('/video', {templateUrl: './views/video/video.html',controller:'videoController'});
   $routeProvider.when('/video/add', {templateUrl: './views/video/formvideo.html',controller:'videoController'});
-  $routeProvider.when('/video/edit/:id', {templateUrl: './views/video/editvideo.html',controller:'videoController'});
-  $routeProvider.when('/video/detail/:id_detail', {templateUrl: './views/video/detailvideo.html',controller:'videoController'});
+  $routeProvider.when('/video/edit/:id_editVideo', {templateUrl: './views/video/editvideo.html',controller:'videoController'});
+  $routeProvider.when('/video/detail/:id_detailVideo', {templateUrl: './views/video/detailvideo.html',controller:'videoController'});
   $routeProvider.when('/video/:idhapus', {controller:'videoController'});
   //mahasiswa
   $routeProvider.when('/mahasiswa', {templateUrl: './views/mahasiswa/mahasiswa.html',controller:'mahasiswaController'});
+  $routeProvider.when('/mahasiswa/daftar', {templateUrl: './views/mahasiswa/formmahasiswa.html',controller:'mahasiswaController'});
   //banner
   $routeProvider.when('/banner', {templateUrl: './views/banner/banner.html',controller:'bannerController'});
   $routeProvider.when('/banner/add', {templateUrl: './views/banner/formbanner.html',controller:'bannerController'});
-  $routeProvider.when('/banner/edit/:id', {templateUrl: './views/banner/editbanner.html',controller:'bannerController'});
+  $routeProvider.when('/banner/edit/:id_editBanner', {templateUrl: './views/banner/editbanner.html',controller:'bannerController'});
 }]);
 
 app.run(function($rootScope,$location,loginService){
   var routespermission=['/','/operator','/operator/detail/:id','/berita/edit/:id',
-                        '/berita','/berita/add','/berita/detail/:id_detail','/mahasiswa',
-                        '/banner','/banner/add','/banner/edit/:id','/video','/video/add',
-                        '/video/edit/:id','/video/detail/:id_detail','/video/:idhapus'];
+                        '/berita','/berita/add','/berita/detail/:id_detailBerita','/mahasiswa',
+                        '/banner','/banner/add','/banner/edit/:id_banner','/video','/video/add',
+                        '/video/edit/:id_editVideo','/video/detail/:id_detailVideo','/video/:idhapus'];
   $rootScope.$on('$routeChangeStart',function(){
     if(routespermission.indexOf($location.path()) !=-1 && !loginService.isLogged()){
       $location.path('/login');

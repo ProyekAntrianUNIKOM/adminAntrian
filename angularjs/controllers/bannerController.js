@@ -49,8 +49,8 @@ app.controller('bannerController',function($scope,sessionService,$http,$timeout,
   }
 
   //edit banner
-  if($routeParams.id){
-    var id = $routeParams.id;
+  if($routeParams.id_editBanner){
+    var id = $routeParams.id_editBanner;
     $http.get('http://localhost/lumenapi/public/api/banner/'+id)
       .success(function (data) {
         $scope.judul = data.result[0].judul;
@@ -71,7 +71,7 @@ app.controller('bannerController',function($scope,sessionService,$http,$timeout,
         'Content-Type': undefined
       }
     }
-    var id = $routeParams.id;
+    var id = $routeParams.id_editBanner;
     $http.post('http://localhost/lumenapi/public/api/banner/'+id, fd,config).success(function(data,status){
       if(data.status==200) {
         document.getElementById('error').style.display = 'none';
@@ -81,6 +81,9 @@ app.controller('bannerController',function($scope,sessionService,$http,$timeout,
         $timeout(function(){
           $scope.status = 'ok';
           $scope.msgTextsuccess="Data Berhasil Diubah.";
+          $timeout(function(){
+            $location.path("/banner");
+          },800);
         },2000);
       }else{
         document.getElementById('error').style.display = 'block';
@@ -92,6 +95,25 @@ app.controller('bannerController',function($scope,sessionService,$http,$timeout,
     }).error(function(data){
       console.error(data);
     });
+  }
+
+  $scope.deleteData = function(id){
+    $http.delete('http://localhost/lumenapi/public/api/banner/'+id)
+      .success(function (data) {
+        document.getElementById('error').style.display = 'none';
+        document.getElementById('success').style.display = 'block';
+        $scope.status = 'refresh';
+        $scope.msgTextsuccess="Sedang menghapus data ...";
+        $timeout(function(){
+          $scope.status = 'ok';
+          $scope.msgTextsuccess="Data Berhasil Dihapus.";
+        },2000);
+        $timeout(function () {
+          $window.location.reload();
+        }, 3000);
+      }).error(function (data) {
+        console.log(data);
+      });
   }
 
 });

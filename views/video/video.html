@@ -32,10 +32,8 @@
           <span class="glyphicon glyphicon glyphicon-{{status}}" aria-hidden="true"></span>
           {{msgTextsuccess}}
         </div>
-        <div class="col-md-6 col-md-offset-4">
-          <button type="button" class="btn btn-info btn-xs" ng-click="allvideo()">All</button>
-          <button type="button" class="btn btn-info btn-xs" ng-click="activevideo()">Active</button>
-          <button type="button" class="btn btn-info btn-xs" ng-click="passivevideo()">Expire</button>
+        <div class="col-md-8 col-md-offset-4">
+          <a class="btn btn-success btn-sm" ng-href="#/video/add"><i class="fa fa-plus"></i> Tambah Video</a>
         </div>
         <table class="table table-bordered" id="datatable">
           <thead>
@@ -43,7 +41,6 @@
               <th width="9%">Id</th>
               <th>Judul</th>
               <th width="18.5%">Tanggal Post</th>
-              <th width="11%">Status</th>
               <th width="23.5%">Action</th>
             </tr>
           </thead>
@@ -52,12 +49,6 @@
               <th scope="row">{{video.id_video}}</th>
               <td>{{video.judul}}</td>
               <td>{{video.tgl_posting}}</td>
-              <td ng-if="video.tgl_expire >= tglnow">
-                <button class="btn btn-success btn-xs" disabled>Active</button>
-              </td>
-              <td ng-if="video.tgl_expire < tglnow">
-                <button class="btn btn-danger btn-xs" disabled>Expire</button>
-              </td>
               <!--<a ng-href="#/video/{{video.id_video}}" class="btn btn-primary btn-sm">Edit -->
               <td><a ng-href="#/video/edit/{{video.id_video}}" class="btn btn-primary btn-xs">Edit<a ng-href="#/video/detail/{{video.id_video}}" class="btn btn-primary btn-xs">Detail</a><a ng-click="deleteData(video.id_video)" class="btn btn-primary btn-xs">Hapus</a></td>
             </tr>

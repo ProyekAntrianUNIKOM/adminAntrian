@@ -60,8 +60,8 @@ app.controller('beritaController',function($routeParams,$scope,$http,$timeout,$l
 
 
   //detail berita
-  if($routeParams.id_detail){
-    var id = $routeParams.id_detail;
+  if($routeParams.id_detailBerita){
+    var id = $routeParams.id_detailBerita;
     $http.get('http://localhost/lumenapi/public/api/berita/'+id)
       .success(function (data) {
         $scope.judul = data.result[0].judul;
@@ -75,8 +75,8 @@ app.controller('beritaController',function($routeParams,$scope,$http,$timeout,$l
   }
 
   //edit berita
-  if($routeParams.id){
-    var id = $routeParams.id;
+  if($routeParams.id_editBerita){
+    var id = $routeParams.id_editBerita;
     $http.get('http://localhost/lumenapi/public/api/berita/'+id)
       .success(function (data) {
         $scope.judul = data.result[0].judul;
@@ -120,7 +120,7 @@ app.controller('beritaController',function($routeParams,$scope,$http,$timeout,$l
         'Content-Type': undefined
       }
     }
-    var id = $routeParams.id;
+    var id = $routeParams.id_editBerita;
     $http.post('http://localhost/lumenapi/public/api/berita/'+id, fd,config).success(function(data,status){
       if(data.status==200) {
         document.getElementById('error').style.display = 'none';
@@ -130,6 +130,9 @@ app.controller('beritaController',function($routeParams,$scope,$http,$timeout,$l
         $timeout(function(){
           $scope.status = 'ok';
           $scope.msgTextsuccess="Data Berhasil Diubah.";
+          $timeout(function(){
+            $location.path("/berita");
+          },800);
         },2000);
       }else{
         document.getElementById('error').style.display = 'block';

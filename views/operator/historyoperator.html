@@ -53,15 +53,15 @@
               {{msg}}
               <div class="col-md-55" ng-repeat="data in datahistory">
                 <div class="thumbnail">
-                  <div class="image view view-first">
-                    <img style="width: 50%;display: block;margin: 0 auto;" src="assets/images/mhs.png" alt="image" />
-                    <div class="mask">
-                      <p>Nomor Antrian : {{data.no_antrian}}</p>
-                      <div class="tools tools-bottom">
-                        <a href="#">{{data.nama_mahasiswa}}</a>
-                      </div>
+
+                    <div class="caption">
+                      <p><strong>NIM :</strong></p>
+                      <p> {{data.nim}}</p>
+                      <p><strong>Nama mahasiswa :</strong></p>
+                      <p>{{data.nama_mahasiswa}}</p>
+
                     </div>
-                  </div>
+
                   <div class="caption">
                     <p><strong>Tanggal Pelayanan</strong></p>
                     <p>{{data.tanggal_pelayanan}}</p>

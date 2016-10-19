@@ -10,14 +10,14 @@ app.filter('startFrom', function() {
 
 app.controller('videoController',function($routeParams,$scope,$http,$timeout,$location,$window,$sce){
 
-  $http.get('http://localhost/lumenapi/public/api/berita')
+  $http.get('http://localhost/lumenapi/public/api/video')
     .success(function (data) {
       //pagination
       $scope.currentPage = 0;
       $scope.pageSize = 10;
-      $scope.beritadata = data.result;
+      $scope.videodata = data.result;
       $scope.numberOfPages=function(){
-        return Math.ceil($scope.beritadata.length/$scope.pageSize);
+        return Math.ceil($scope.videodata.length/$scope.pageSize);
       }
       var now = new Date().toISOString().slice(0,10);
       $scope.tglnow = now;
@@ -25,71 +25,39 @@ app.controller('videoController',function($routeParams,$scope,$http,$timeout,$lo
     console.log(data);
   });
 
-  $scope.allberita = function() {
-    $http.get('http://localhost/lumenapi/public/api/berita')
-      .success(function (data) {
-        var now = new Date().toISOString().slice(0,10);
-        $scope.beritadata = data.result;
-        $scope.tglnow = now;
-    }).error(function (data) {
-      console.log(data);
-    });
-  }
 
-  $scope.activeberita = function() {
-    $http.get('http://localhost/lumenapi/public/api/berita/active')
+  //detail video
+  if($routeParams.id_detailVideo){
+    var id = $routeParams.id_detailVideo;
+    $http.get('http://localhost/lumenapi/public/api/video/'+id)
       .success(function (data) {
-        $scope.beritadata = data.result;
-        $scope.passive = "display:none";
-        $scope.active = "display:block";
-    }).error(function (data) {
-      console.log(data);
-    });
-  }
-
-  $scope.passiveberita = function() {
-    $http.get('http://localhost/lumenapi/public/api/berita/passive')
-      .success(function (data) {
-        $scope.beritadata = data.result;
-        $scope.active = "display:none";
-        $scope.passive = "display:block";
-    }).error(function (data) {
-      console.log(data);
-    });
-  }
-
-
-  //detail berita
-  if($routeParams.id_detail){
-    var id = $routeParams.id_detail;
-    $http.get('http://localhost/lumenapi/public/api/berita/'+id)
-      .success(function (data) {
+        $scope.getIframeSrc = function (video) {
+          return 'http://localhost/lumenapi/public/video/' + video;
+        };
+        $scope.poster = function (video) {
+          return 'http://localhost/lumenapi/public/img/' + video;
+        };
         $scope.judul = data.result[0].judul;
-        $scope.isi = $sce.trustAsHtml(data.result[0].isi);
-        $scope.foto = data.result[0].foto;
-        $scope.tgl_expire = data.result[0].tgl_expire;
-        $scope.tgl_posting = data.result[0].tgl_posting;
+        $scope.video = data.result[0].video;
       }).error(function (data) {
         console.log(data);
       });
   }
 
-  //edit berita
-  if($routeParams.id){
-    var id = $routeParams.id;
-    $http.get('http://localhost/lumenapi/public/api/berita/'+id)
+  //edit video
+  if($routeParams.id_editVideo){
+    var id = $routeParams.id_editVideo;
+    $http.get('http://localhost/lumenapi/public/api/video/'+id)
       .success(function (data) {
         $scope.judul = data.result[0].judul;
-        $scope.isi = data.result[0].isi;
-        $scope.oldfile = data.result[0].foto;
+        $scope.oldfile = data.result[0].video;
       }).error(function (data) {
         console.log(data);
       });
   }
 
   $scope.deleteData = function(id){
-    console.log(id);
-    $http.delete('http://localhost/lumenapi/public/api/berita/'+id)
+    $http.delete('http://localhost/lumenapi/public/api/video/'+id)
       .success(function (data) {
         document.getElementById('error').style.display = 'none';
         document.getElementById('success').style.display = 'block';
@@ -107,12 +75,11 @@ app.controller('videoController',function($routeParams,$scope,$http,$timeout,$lo
       });
   }
 
-  $scope.SendEditBerita = function(judul,isi,file,oldfile) {
+  $scope.SendEditVideo = function(judul,file,oldfile) {
     var fd = new FormData();
     //Take the first selected file
     fd.append("file", file);
     fd.append("judul", judul);
-    fd.append("isi", isi);
     fd.append("oldfile", oldfile);
 
     var config = {
@@ -120,8 +87,8 @@ app.controller('videoController',function($routeParams,$scope,$http,$timeout,$lo
         'Content-Type': undefined
       }
     }
-    var id = $routeParams.id;
-    $http.post('http://localhost/lumenapi/public/api/berita/'+id, fd,config).success(function(data,status){
+    var id = $routeParams.id_editVideo;
+    $http.post('http://localhost/lumenapi/public/api/video/'+id, fd,config).success(function(data,status){
       if(data.status==200) {
         document.getElementById('error').style.display = 'none';
         document.getElementById('success').style.display = 'block';
@@ -130,30 +97,32 @@ app.controller('videoController',function($routeParams,$scope,$http,$timeout,$lo
         $timeout(function(){
           $scope.status = 'ok';
           $scope.msgTextsuccess="Data Berhasil Diubah.";
+          $timeout(function(){
+            $location.path("/video");
+          },800);
         },2000);
       }else{
         document.getElementById('error').style.display = 'block';
         $scope.msgTexterror=data;
       }
+
     }).error(function(data){
       console.error(data);
     });
   }
 
-  $scope.SendDataBerita = function (berita) {
+  $scope.SendDataVideo = function (video) {
     var fd = new FormData();
     //Take the first selected file
-    fd.append("file", berita.file);
-    fd.append("judul", berita.judul);
-    fd.append("isi", berita.isi);
-    fd.append("tgl_expire", berita.tgl_expire);
+    fd.append("file", video.file);
+    fd.append("judul", video.judul);
 
     var config = {
       headers : {
         'Content-Type': undefined
       }
     }
-    $http.post('http://localhost/lumenapi/public/api/berita', fd,config).success(function(data,status){
+    $http.post('http://localhost/lumenapi/public/api/video', fd,config).success(function(data,status){
       if(data.status==200) {
         document.getElementById('error').style.display = 'none';
         document.getElementById('success').style.display = 'block';

@@ -6,7 +6,7 @@
 <div class="col-md-8 col-md-offset-2">
   <div class="x_panel">
     <div class="x_title">
-      <h2>Posting {{judul}} <small>Detail Posting</small></h2>
+      <h2>Video {{judul}} <small>Detail Video</small></h2>
       <ul class="nav navbar-right panel_toolbox">
         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
         </li>
@@ -27,13 +27,9 @@
     <div class="x_content">
 
       <div class="bs-example" data-example-id="simple-jumbotron">
-        <img ng-src="http://localhost/lumenapi/public/img/{{foto}}" style="width:655px;height:340px"/>
-        <div class="jumbotron">
-          <p><h5>Tanggal Posting : {{tgl_posting}}</h5></p>
-          <p><h5>Tanggal Expire : {{tgl_expire}}</h5></p>
-          <h1>{{judul}}</h1>
-          <p ng-bind-html="isi"></p>
-        </div>
+        <video ng-src="{{getIframeSrc(video)}}" autoplay style="height:380px" loop muted>
+
+        </video>
       </div>
 
     </div>
